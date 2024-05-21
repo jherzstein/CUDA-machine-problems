@@ -28,7 +28,7 @@ __global__ void tiledMatrixMultiplication(float *A, float *B, float *C, float si
   int row = blockIdx.y * TILE_WIDTH + threadIdx.y;
   int col = blockIdx.x * TILE_WIDTH + threadIdx.x;
   
-  float temp = 0; int loc;
+  float value = 0; int loc;
   
   
   for (int i = 0; i< gridDim.x; ++i) {
@@ -53,7 +53,7 @@ __global__ void tiledMatrixMultiplication(float *A, float *B, float *C, float si
     
     
     for (int j = 0; j < TILE_WIDTH; j++)
-      temp += tile1[threadIdx.y][j] * tile2[j][threadIdx.x];
+      value += tile1[threadIdx.y][j] * tile2[j][threadIdx.x];
     
     __syncthreads(); 
     
@@ -61,9 +61,9 @@ __global__ void tiledMatrixMultiplication(float *A, float *B, float *C, float si
   }
   
   //if (row < size && col < size) {
-    int temp2;
-    temp2 = row * size + col;
-    C[temp2] = temp;
+    int temp;
+    temp = row * size + col;
+    C[temp] = temp;
     //}
 }
 
